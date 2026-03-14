@@ -34,7 +34,7 @@ export default function ProductListing() {
     categoryFromURL ? [categoryFromURL] : [],
   );
 
-  const { data, loading, error } = useFetch("http://localhost:3000/products");
+  const { data, loading, error } = useFetch(`${import.meta.env.VITE_API_URL}/products`)
 
   /* CLOSE SORT DROPDOWN */
 

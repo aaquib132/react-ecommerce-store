@@ -9,7 +9,7 @@ import WishlistSkeleton from "../components/WishlistSkeleton";
 export default function Wishlist() {
 
   const { wishlistItems } = useWishlist();
-  const { data: allProducts = [], loading } = useFetch("http://localhost:3000/products");
+  const { data: allProducts = [], loading } = useFetch(`${import.meta.env.VITE_API_URL}/products`);
 
 
 

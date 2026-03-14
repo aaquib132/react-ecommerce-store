@@ -30,10 +30,10 @@ export default function ProductDetails() {
   const { cartItems, toggleCart, wishlistItems, toggleWishlist } = useShop();
 
   const { data } = useFetch(
-    productFromState ? null : `http://localhost:3000/products/${id}`,
+    productFromState ? null : `${import.meta.env.VITE_API_URL}/products/${id}`,
   );
 
-  const { data: allProducts } = useFetch("http://localhost:3000/products");
+  const { data: allProducts } = useFetch(`${import.meta.env.VITE_API_URL}/products`)
 
   // Hooks must always run before any return
   const [qty, setQty] = useState(1);

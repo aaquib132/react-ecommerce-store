@@ -14,7 +14,7 @@ export default function Navbar() {
   const { cartItems, wishlistItems } = useShop();
 
   const navigate = useNavigate();
-  const { data } = useFetch("http://localhost:3000/products");
+  const { data } = useFetch(`${import.meta.env.VITE_API_URL}/products`)
 
   const searchRef = useRef(null);
 

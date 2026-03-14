@@ -56,7 +56,7 @@ export default function Home() {
   const { toggleWishlist, wishlistItems } = useWishlist();
 
   const [openVideo, setOpenVideo] = useState(false);
-  const { data, loading } = useFetch("http://localhost:3000/products");
+  const { data, loading } = useFetch(`${import.meta.env.VITE_API_URL}/products`)
 
 
 

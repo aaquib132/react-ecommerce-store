@@ -10,9 +10,7 @@ const USD_TO_INR = 92;
 export default function Cart() {
   const { cartItems, toggleCart } = useCart();
   const { toggleWishlist } = useWishlist();
-  const { data: allProducts = [], loading } = useFetch(
-    "http://localhost:3000/products",
-  );
+  const { data: allProducts = [], loading } = useFetch(`${import.meta.env.VITE_API_URL}/products`)
 
 
 
