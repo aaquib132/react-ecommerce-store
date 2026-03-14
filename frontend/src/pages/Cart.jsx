@@ -1,80 +1,18 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Minus, Plus, Heart, Trash2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import useCart from "../hooks/useCart";
-import useWishlist from "../hooks/useWishlist";
-import useFetch from "../useFetch";
+import { useShop } from "../store/ShopContext";
 
 const USD_TO_INR = 92;
 
 export default function Cart() {
-  const { cartItems, toggleCart } = useCart();
-  const { toggleWishlist } = useWishlist();
-  const { data: allProducts = [], loading } = useFetch(`${import.meta.env.VITE_API_URL}/products`)
-
-
-
+  const { cartItems, toggleCart, toggleWishlist } = useShop();
   const [qtyMap, setQtyMap] = useState({});
   const navigate = useNavigate();
 
-  /* CART PRODUCTS */
+  const cartProducts = cartItems;
 
-  const cartProducts = useMemo(() => {
-    return allProducts.filter((p) => cartItems.includes(p._id));
-  }, [allProducts, cartItems]);
 
-  if (loading) {
-    return (
-      <div className="bg-[#F5F5F5] mt-20 min-h-screen py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-semibold text-center mb-10">MY CART</h1>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Skeleton Cart Items */}
-
-            <div className="md:col-span-2 space-y-6">
-              {[1, 2, 3].map((item) => (
-                <div
-                  key={item}
-                  className="bg-white rounded-xl p-6 shadow-sm flex gap-6 animate-pulse"
-                >
-                  {/* Image Skeleton */}
-
-                  <div className="w-36 h-36 bg-slate-200 rounded-lg"></div>
-
-                  {/* Content Skeleton */}
-
-                  <div className="flex-1 space-y-4">
-                    <div className="h-4 w-2/3 bg-slate-200 rounded"></div>
-
-                    <div className="h-6 w-32 bg-slate-200 rounded"></div>
-
-                    <div className="h-3 w-24 bg-slate-200 rounded"></div>
-
-                    <div className="h-8 w-28 bg-slate-200 rounded"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Price Skeleton */}
-
-            <div className="bg-white rounded-xl p-6 shadow-sm space-y-4 animate-pulse">
-              <div className="h-4 w-32 bg-slate-200 rounded"></div>
-
-              <div className="h-4 w-full bg-slate-200 rounded"></div>
-
-              <div className="h-4 w-full bg-slate-200 rounded"></div>
-
-              <div className="h-4 w-full bg-slate-200 rounded"></div>
-
-              <div className="h-10 w-full bg-slate-200 rounded"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   /* QUANTITY FUNCTIONS */
 

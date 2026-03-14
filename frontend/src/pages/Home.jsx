@@ -7,8 +7,7 @@ import Heart from "lucide-react/dist/esm/icons/heart";
 import Star from "lucide-react/dist/esm/icons/star";
 import { useState, useMemo } from "react";
 import useFetch from "../useFetch";
-import useCart from "../hooks/useCart";
-import useWishlist from "../hooks/useWishlist";
+import { useShop } from "../store/ShopContext";
 import HomeSkeleton from "../components/HomeSkeleton";
 
 const USD_TO_INR = 92;
@@ -52,8 +51,7 @@ const CATEGORIES = [
   ];
 
 export default function Home() {
-  const { toggleCart } = useCart();
-  const { toggleWishlist, wishlistItems } = useWishlist();
+  const { toggleCart, toggleWishlist, wishlistItems } = useShop();
 
   const [openVideo, setOpenVideo] = useState(false);
   const { data, loading } = useFetch(`${import.meta.env.VITE_API_URL}/products`)
@@ -239,7 +237,7 @@ export default function Home() {
                       >
                         <Heart
                           className={`w-5 h-5 ${
-                            wishlistItems.includes(product._id)
+                            wishlistItems?.some(item => item._id === product._id)
                               ? "fill-red-500 text-red-500"
                               : ""
                           }`}

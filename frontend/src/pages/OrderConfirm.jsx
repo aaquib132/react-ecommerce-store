@@ -10,14 +10,14 @@ import {
 } from "lucide-react";
 import jsPDF from "jspdf";
 import { useState, useEffect } from "react";
-import useCart from "../hooks/useCart";
+import { useShop } from "../store/ShopContext";
 
 const USD_TO_INR = 92;
 
 export default function OrderConfirm() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { clearCart } = useCart();
+  const { clearCart } = useShop();
 
   useEffect(() => {
     clearCart();

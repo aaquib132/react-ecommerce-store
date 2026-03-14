@@ -2,24 +2,12 @@
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
-import useWishlist from "../hooks/useWishlist";
-import useFetch from "../useFetch";
-import WishlistSkeleton from "../components/WishlistSkeleton";
-
+import { useShop } from "../store/ShopContext";
 export default function Wishlist() {
 
-  const { wishlistItems } = useWishlist();
-  const { data: allProducts = [], loading } = useFetch(`${import.meta.env.VITE_API_URL}/products`);
+  const { wishlistItems } = useShop();
 
-
-
-  const wishlistProducts = allProducts.filter((p) =>
-    wishlistItems.includes(p._id)
-  );
-
-  if (loading) {
-    return <WishlistSkeleton />;
-  }
+  const wishlistProducts = wishlistItems;
 
   return (
     <div className="min-h-screen mt-24 bg-slate-50 pt-8 pb-16">
