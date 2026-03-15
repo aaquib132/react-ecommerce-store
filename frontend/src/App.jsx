@@ -29,7 +29,7 @@ function App() {
       <div className="flex flex-col min-h-screen">
         <Navbar/>
         <ScrollToTop />
-        <main className="flex-grow">
+        <main className="grow">
           <Suspense fallback={<FallbackLoader />}>
             <Routes>
               <Route path="/" element={<Home/>} />

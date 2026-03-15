@@ -7,14 +7,13 @@ import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import { useNavigate } from "react-router-dom";
 import ProductListingSkeleton from "../components/ProductListingSkeleton";
+import SearchBar from "../components/MobileSearchBar";
 
 const USD_TO_INR = 92;
 
 export default function ProductListing() {
   const MIN = 10;
   const MAX = 1000000;
-
-
 
   const [viewMode, setViewMode] = useState("grid");
   const [maxPrice, setMaxPrice] = useState(MAX);
@@ -35,7 +34,9 @@ export default function ProductListing() {
     categoryFromURL ? [categoryFromURL] : [],
   );
 
-  const { data, loading, error } = useFetch(`${import.meta.env.VITE_API_URL}/products`)
+  const { data, loading, error } = useFetch(
+    `${import.meta.env.VITE_API_URL}/products`,
+  );
 
   /* CLOSE SORT DROPDOWN */
 
@@ -131,21 +132,29 @@ export default function ProductListing() {
   return (
     <div className="min-h-screen mt-15 bg-slate-50 font-sans text-slate-900">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* MOBILE FILTER TOGGLE */}
-          <div className="lg:hidden">
-            <button
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="flex items-center justify-center gap-2 w-full bg-white border border-indigo-200 rounded-xl py-3 text-sm font-bold text-indigo-700 shadow-sm hover:bg-indigo-50 transition"
-            >
-              <Filter className="w-4 h-4" />
-              {isFilterOpen ? "Hide Filters" : "Show Filters"}
-            </button>
+        {/* MOBILE SEARCH + FILTER */}
+
+        <div className="lg:hidden flex items-stretch gap-3">
+          {/* SEARCH */}
+          <div className="flex-1">
+            <SearchBar />
           </div>
 
+          {/* FILTER BUTTON */}
+          <button
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+            className="h-12 w-12 shrink-0 flex items-center justify-center bg-white border border-slate-200 rounded-full shadow-sm text-slate-700 hover:bg-slate-50 transition"
+          >
+            <Filter className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-8">
           {/* FILTER SIDEBAR */}
 
-          <aside className={`lg:w-64 shrink-0 ${isFilterOpen ? "block" : "hidden lg:block"}`}>
+          <aside
+            className={`lg:w-64 shrink-0 ${isFilterOpen ? "block" : "hidden lg:block"}`}
+          >
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-8 lg:sticky top-24 lg:max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl font-bold">Filters</h2>

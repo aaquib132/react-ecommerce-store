@@ -231,7 +231,7 @@ export default function ProductDetails() {
                       <button
                         key={s}
                         onClick={() => setSize(s)}
-                        className={`px-5 py-2 rounded-lg border transition ${
+                        className={`px-5 py-2 rounded-lg cursor-pointer border transition ${
                           size === s
                             ? "border-indigo-600 bg-indigo-50 text-indigo-600"
                             : "hover:border-gray-400"

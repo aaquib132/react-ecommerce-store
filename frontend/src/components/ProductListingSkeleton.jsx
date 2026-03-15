@@ -1,57 +1,47 @@
-export default function ProductListingSkeleton({ viewMode = "grid" }) {
+export default function ProductListingSkeleton({ viewMode }) {
   return (
-    <div className="min-h-screen mt-15 bg-slate-50 animate-pulse">
-      <main className="max-w-7xl mx-auto px-4 py-8">
+    <div className="min-h-screen mt-15 bg-slate-50">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        {/* MOBILE SEARCH + FILTER SKELETON */}
+        <div className="lg:hidden flex gap-3 mb-6">
+          <div className="flex-1 h-12 rounded-full skeleton" />
+          <div className="w-12 h-12 rounded-full skeleton" />
+        </div>
+
         <div className="flex flex-col lg:flex-row gap-8">
-          
-          {/* FILTER SIDEBAR */}
-          <aside className="lg:w-64 shrink-0">
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
-              
-              {/* Title */}
-              <div className="h-6 w-24 bg-slate-200 rounded"></div>
 
-              {/* Price */}
-              <div className="space-y-3">
-                <div className="h-4 w-20 bg-slate-200 rounded"></div>
-                <div className="h-2 w-full bg-slate-200 rounded"></div>
-              </div>
+          {/* SIDEBAR SKELETON (desktop only) */}
+          <aside className="hidden lg:block w-64 shrink-0">
+            <div className="bg-white rounded-2xl border p-6 space-y-6">
 
-              {/* Category */}
-              <div className="space-y-3">
-                <div className="h-4 w-24 bg-slate-200 rounded"></div>
-                {[...Array(5)].map((_, i) => (
-                  <div key={i} className="h-3 w-32 bg-slate-200 rounded"></div>
-                ))}
-              </div>
+              <div className="h-6 w-24 skeleton rounded" />
 
-              {/* Rating */}
-              <div className="space-y-3">
-                <div className="h-4 w-20 bg-slate-200 rounded"></div>
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="h-3 w-28 bg-slate-200 rounded"></div>
-                ))}
-              </div>
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="h-4 w-full skeleton rounded" />
+              ))}
+
             </div>
           </aside>
 
-          {/* PRODUCT AREA */}
+          {/* PRODUCTS AREA */}
           <div className="grow space-y-6">
 
-            {/* HEADER */}
+            {/* HEADER SKELETON */}
             <div className="flex justify-between items-center">
-              <div className="space-y-2">
-                <div className="h-5 w-40 bg-slate-200 rounded"></div>
-                <div className="h-3 w-24 bg-slate-200 rounded"></div>
+              <div>
+                <div className="h-5 w-40 skeleton rounded mb-2" />
+                <div className="h-3 w-24 skeleton rounded" />
               </div>
 
               <div className="flex gap-2">
-                <div className="h-8 w-16 bg-slate-200 rounded"></div>
-                <div className="h-8 w-16 bg-slate-200 rounded"></div>
+                <div className="w-8 h-8 skeleton rounded" />
+                <div className="w-8 h-8 skeleton rounded" />
+                <div className="w-14 h-8 skeleton rounded" />
               </div>
             </div>
 
-            {/* PRODUCT GRID */}
+            {/* PRODUCT GRID SKELETON */}
             <div
               className={
                 viewMode === "grid"
@@ -59,23 +49,22 @@ export default function ProductListingSkeleton({ viewMode = "grid" }) {
                   : "flex flex-col gap-6"
               }
             >
-              {[...Array(9)].map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4"
-                >
-                  <div className="h-48 bg-slate-200 rounded mb-4"></div>
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="bg-white rounded-xl p-4 space-y-3">
 
-                  <div className="space-y-2">
-                    <div className="h-4 w-3/4 bg-slate-200 rounded"></div>
-                    <div className="h-4 w-1/2 bg-slate-200 rounded"></div>
-                    <div className="h-6 w-24 bg-slate-200 rounded mt-2"></div>
-                  </div>
+                  <div className="aspect-square rounded-lg skeleton" />
+
+                  <div className="h-4 w-3/4 skeleton rounded" />
+
+                  <div className="h-4 w-1/2 skeleton rounded" />
+
                 </div>
               ))}
             </div>
+
           </div>
         </div>
+
       </main>
     </div>
   );
