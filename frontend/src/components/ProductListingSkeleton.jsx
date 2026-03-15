@@ -13,7 +13,7 @@ export default function ProductListingSkeleton({ viewMode }) {
 
           {/* SIDEBAR SKELETON (desktop only) */}
           <aside className="hidden lg:block w-64 shrink-0">
-            <div className="bg-white rounded-2xl border p-6 space-y-6">
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-6">
 
               <div className="h-6 w-24 skeleton rounded" />
 
