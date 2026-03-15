@@ -83,7 +83,7 @@ export default function ProfilePage() {
 
           {/* SIDEBAR */}
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-3 h-fit">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-2 sm:p-3 h-fit flex lg:flex-col gap-2 overflow-x-auto scrollbar-hide">
 
             <SidebarItem
               icon={<User size={18}/>}
@@ -233,7 +233,7 @@ function SidebarItem({icon,label,active,onClick}){
   return(
     <div
     onClick={onClick}
-    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer text-sm transition
+    className={`flex items-center gap-2 sm:gap-3 px-3 py-2 sm:p-3 rounded-lg cursor-pointer text-sm transition whitespace-nowrap
     ${active
       ? "bg-indigo-50 text-indigo-600"
       : "text-slate-600 hover:bg-slate-50"

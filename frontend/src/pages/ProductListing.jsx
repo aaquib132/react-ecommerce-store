@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { RotateCcw, LayoutGrid, List, ChevronDown } from "lucide-react";
+import { RotateCcw, LayoutGrid, List, ChevronDown, Filter } from "lucide-react";
 import useFetch from "../useFetch";
 import categoryMap from "../utils/categoryMap";
 import { useSearchParams } from "react-router-dom";
@@ -22,6 +22,7 @@ export default function ProductListing() {
   const [sortOrder, setSortOrder] = useState(null);
   const [sortOpen, setSortOpen] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const sortRef = useRef(null);
   const navigate = useNavigate();
@@ -131,10 +132,21 @@ export default function ProductListing() {
     <div className="min-h-screen mt-15 bg-slate-50 font-sans text-slate-900">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
+          {/* MOBILE FILTER TOGGLE */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              className="flex items-center justify-center gap-2 w-full bg-white border border-indigo-200 rounded-xl py-3 text-sm font-bold text-indigo-700 shadow-sm hover:bg-indigo-50 transition"
+            >
+              <Filter className="w-4 h-4" />
+              {isFilterOpen ? "Hide Filters" : "Show Filters"}
+            </button>
+          </div>
+
           {/* FILTER SIDEBAR */}
 
-          <aside className="lg:w-64 shrink-0">
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-8 sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide">
+          <aside className={`lg:w-64 shrink-0 ${isFilterOpen ? "block" : "hidden lg:block"}`}>
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-8 lg:sticky top-24 lg:max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl font-bold">Filters</h2>
 

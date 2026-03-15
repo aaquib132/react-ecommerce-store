@@ -35,10 +35,10 @@ export default function PaymentPage() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <CheckoutSteps current={3} />
 
-        <div className="grid lg:grid-cols-3 gap-10">
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-10">
           {/* PAYMENT SECTION */}
 
-          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm p-10">
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm p-6 sm:p-10">
             <h2 className="text-xl font-semibold text-slate-800 mb-8">
               Select Payment Method
             </h2>
@@ -55,7 +55,7 @@ export default function PaymentPage() {
               />
 
               {method === "card" && (
-                <div className="mt-6 grid md:grid-cols-2 gap-4">
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Input placeholder="Card Number" />
                   <Input placeholder="Cardholder Name" />
                   <Input placeholder="Expiry Date (MM/YY)" />
@@ -98,7 +98,7 @@ export default function PaymentPage() {
 
           {/* ORDER SUMMARY */}
 
-          <div className="bg-white rounded-2xl shadow-sm p-6 sticky top-28">
+          <div className="bg-white rounded-2xl shadow-sm p-6 lg:sticky top-28 h-fit">
             <h3 className="text-lg font-semibold mb-6 text-slate-800">
               Order Summary
             </h3>
@@ -254,8 +254,8 @@ function CheckoutSteps({ current }) {
   const steps = ["Order", "Shipping", "Payment", "Confirm"];
 
   return (
-    <div className="flex justify-center mb-12">
-      <div className="flex items-center gap-6">
+    <div className="flex justify-center mb-8 sm:mb-12 overflow-x-auto py-2">
+      <div className="flex items-center gap-2 sm:gap-4 md:gap-6 min-w-max px-2">
         {steps.map((step, index) => {
           const stepNumber = index + 1;
           const active = stepNumber <= current;
@@ -274,7 +274,7 @@ function CheckoutSteps({ current }) {
               </div>
 
               <span
-                className={`text-sm font-medium ${
+                className={`text-xs sm:text-sm font-medium ${
                   active ? "text-indigo-600" : "text-slate-400"
                 }`}
               >
@@ -282,7 +282,7 @@ function CheckoutSteps({ current }) {
               </span>
 
               {index !== steps.length - 1 && (
-                <div className="w-10 h-0.5 bg-slate-200" />
+                <div className="w-4 sm:w-10 h-0.5 bg-slate-200" />
               )}
             </div>
           );

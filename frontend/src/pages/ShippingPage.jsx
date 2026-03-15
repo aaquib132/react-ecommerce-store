@@ -94,11 +94,11 @@ export default function ShippingPage() {
 
         <CheckoutSteps current={2} />
 
-        <div className="grid lg:grid-cols-3 gap-10">
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-10">
 
           {/* SHIPPING FORM */}
 
-          <div className="lg:col-span-2 bg-white p-10 rounded-2xl shadow-sm border border-slate-100">
+          <div className="lg:col-span-2 bg-white p-6 sm:p-10 rounded-2xl shadow-sm border border-slate-100">
 
             <h2 className="text-xl font-semibold text-slate-800 mb-8">
               Shipping Address
@@ -185,7 +185,7 @@ export default function ShippingPage() {
 
           {/* ORDER SUMMARY */}
 
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 sticky top-28">
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 lg:sticky top-28 h-fit">
 
             <h3 className="text-lg font-semibold text-slate-800 mb-6">
               Order Summary
@@ -298,8 +298,8 @@ function CheckoutSteps({ current }) {
   const steps = ["Order", "Shipping", "Payment", "Confirm"];
 
   return (
-    <div className="flex justify-center mb-12">
-      <div className="flex items-center gap-6">
+    <div className="flex justify-center mb-8 sm:mb-12 overflow-x-auto py-2">
+      <div className="flex items-center gap-2 sm:gap-4 md:gap-6 min-w-max px-2">
 
         {steps.map((step, index) => {
 
@@ -321,7 +321,7 @@ function CheckoutSteps({ current }) {
               </div>
 
               <span
-                className={`text-sm font-medium ${
+                className={`text-xs sm:text-sm font-medium ${
                   active ? "text-indigo-600" : "text-slate-400"
                 }`}
               >
@@ -329,7 +329,7 @@ function CheckoutSteps({ current }) {
               </span>
 
               {index !== steps.length - 1 && (
-                <div className="w-10 h-0.5 bg-slate-300" />
+                <div className="w-4 sm:w-10 h-0.5 bg-slate-300" />
               )}
 
             </div>

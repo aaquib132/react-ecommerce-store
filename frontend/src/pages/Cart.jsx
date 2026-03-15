@@ -62,22 +62,22 @@ export default function Cart() {
           MY CART ({cartProducts.length})
         </h1>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-8">
           {/* CART ITEMS */}
 
-          <div className="md:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6">
             {cartProducts.map((product) => (
               <div
                 key={product._id}
-                className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition flex gap-6"
+                className="bg-white rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition flex flex-col sm:flex-row gap-4 sm:gap-6"
               >
                 {/* PRODUCT IMAGE */}
 
-                <Link to={`/products/${product._id}`} state={{ product }}>
-                  <div className="bg-gray-100 p-6 rounded-lg flex items-center justify-center">
+                <Link to={`/products/${product._id}`} state={{ product }} className="w-full sm:w-auto shrink-0">
+                  <div className="bg-gray-100 p-4 sm:p-6 rounded-lg flex items-center justify-center w-full sm:w-32 md:w-40 aspect-square">
                     <img
                       src={product.thumbnail}
-                      className="h-36 object-contain"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                 </Link>
@@ -183,7 +183,7 @@ export default function Cart() {
 
           {/* PRICE SUMMARY */}
 
-          <div className="bg-white rounded-xl p-6 shadow-sm sticky h-fit">
+          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm lg:sticky h-fit top-24">
             <h2 className="font-semibold mb-4">PRICE DETAILS</h2>
 
             <div className="space-y-3 text-sm">

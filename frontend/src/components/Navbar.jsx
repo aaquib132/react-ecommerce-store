@@ -96,7 +96,14 @@ export default function Navbar() {
 
             {/* LOGO */}
 
-            <Link to="/" className="flex items-center space-x-2">
+            <Link
+              to="/"
+              onClick={() => {
+                setIsMenuOpen(false);
+                window.scrollTo(0, 0);
+              }}
+              className="flex items-center space-x-2 z-50 relative"
+            >
 
               <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
                 M
@@ -257,6 +264,14 @@ export default function Navbar() {
             </Link>
 
           ))}
+
+          <Link
+            to="/profile"
+            onClick={() => setIsMenuOpen(false)}
+            className="text-2xl font-bold border-b border-neutral-100 pb-2 mt-4"
+          >
+            Profile
+          </Link>
 
         </div>
 

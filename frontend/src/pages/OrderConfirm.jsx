@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import {
   Mail,
   Phone,
@@ -98,17 +98,17 @@ export default function OrderConfirm() {
 
         {/* SUCCESS HEADER */}
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-10 flex items-center justify-between">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8 mb-8 sm:mb-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 sm:gap-4">
 
           <div className="flex items-center gap-4">
-            <CheckCircle className="text-green-500 w-10 h-10 animate-pulse" />
+            <CheckCircle className="text-green-500 w-10 h-10 sm:w-12 sm:h-12 animate-pulse shrink-0" />
 
             <div>
-              <h1 className="text-2xl font-bold text-slate-800">
+              <h1 className="text-xl sm:text-2xl font-bold text-slate-800">
                 Order Confirmed
               </h1>
 
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-500 mt-1">
                 Your order has been placed successfully.
               </p>
             </div>
@@ -116,22 +116,22 @@ export default function OrderConfirm() {
 
           <button
             onClick={downloadInvoice}
-            className="flex items-center gap-2 cursor-pointer bg-indigo-600 text-white px-5 py-2.5 rounded-lg hover:bg-indigo-700 transition"
+            className="w-full sm:w-auto flex flex-1 sm:flex-none justify-center items-center gap-2 cursor-pointer bg-indigo-600 text-white px-5 py-3 sm:py-2.5 rounded-lg hover:bg-indigo-700 transition font-medium text-sm sm:text-base"
           >
-            <FileDown size={16} />
+            <FileDown size={18} className="sm:w-4 sm:h-4" />
             Download Invoice
           </button>
         </div>
 
         {/* DELIVERY PROGRESS */}
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-10">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8 mb-8 sm:mb-10 overflow-x-auto">
 
-          <h2 className="font-semibold text-lg mb-6">
+          <h2 className="font-semibold text-lg mb-6 sm:mb-10 whitespace-nowrap">
             Delivery Progress
           </h2>
 
-          <div className="relative">
+          <div className="relative min-w-[500px] sm:min-w-0 px-4 sm:px-0">
 
             <div className="absolute top-5 left-0 right-0 h-1 bg-slate-200" />
 
@@ -279,12 +279,12 @@ export default function OrderConfirm() {
 
             {/* CONTINUE SHOPPING */}
 
-            <button
-              onClick={() => navigate("/products")}
-              className="w-full bg-indigo-600 cursor-pointer text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition"
+            <Link
+              to="/products"
+              className="flex justify-center items-center w-full bg-indigo-600 cursor-pointer text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition"
             >
               Continue Shopping
-            </button>
+            </Link>
 
           </div>
 

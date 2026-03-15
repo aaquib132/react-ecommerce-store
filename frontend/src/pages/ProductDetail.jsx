@@ -80,11 +80,11 @@ export default function ProductDetails() {
           <div className="grid md:grid-cols-2 gap-12">
             {/* IMAGE SECTION */}
             <div className="space-y-6">
-              <div className="relative bg-gray-100 p-10 rounded-xl flex justify-center items-center group">
+              <div className="relative bg-gray-100 p-6 sm:p-10 rounded-xl flex justify-center items-center group">
                 <img
                   src={img || product.thumbnail}
                   alt={product.title}
-                  className="h-105 object-contain transition-transform duration-300 group-hover:scale-105"
+                  className="h-64 sm:h-80 md:h-105 object-contain transition-transform duration-300 group-hover:scale-105"
                 />
 
                 <button
@@ -139,7 +139,7 @@ export default function ProductDetails() {
 
                 <button
                   onClick={() => toggleCart(product)}
-                  className={`py-3 rounded-lg font-semibold cursor-pointer transition ${
+                  className={`py-3 rounded-lg font-semibold cursor-pointer transition flex items-center justify-center gap-2 ${
                     cartItems?.some(item => item._id === product._id)
                       ? "bg-indigo-600 text-white"
                       : "bg-gray-900 text-white hover:bg-black"
@@ -180,12 +180,12 @@ export default function ProductDetails() {
               </div>
 
               {/* PRICE */}
-              <div className="flex items-center gap-4 mt-6">
-                <span className="text-3xl font-bold">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-6">
+                <span className="text-2xl sm:text-3xl font-bold">
                   ₹ {(product.price * USD_TO_INR).toLocaleString("en-IN")}
                 </span>
 
-                <span className="line-through text-gray-400">
+                <span className="line-through text-gray-400 text-sm sm:text-base">
                   ₹ {(product.price * 1.4 * USD_TO_INR).toLocaleString("en-IN")}
                 </span>
 
