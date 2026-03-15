@@ -5,14 +5,13 @@
 # 🛒 MyShoppingSite
 **The Ultimate Modern Full-Stack E-Commerce Experience**
 
-[![Live Demo](https://img.shields.io/badge/demo-online-green.svg?style=for-the-badge&logo=vercel)](https://react-ecommerce-store-58be.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/demo-online-green.svg?style=for-the-badge&logo=vercel)](https://react-ecommerce-store-nine.vercel.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/badge/Maintained%3F-yes-blue.svg?style=for-the-badge)](#)
 
 <img src="https://readme-typing-svg.herokuapp.com?font=Inter&size=24&duration=3000&pause=1000&center=true&vCenter=true&width=600&lines=Modern+Ecommerce+Web+Application;React+19+%2B+Node.js+%2B+MongoDB;Responsive+UI+%7C+Optimized+Performance;Full+Stack+Production+Architecture" alt="Typing SVG" />
 
 </div>
-
 ---
 
 ## 📖 Table of Contents
