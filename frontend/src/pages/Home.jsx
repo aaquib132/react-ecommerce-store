@@ -271,7 +271,7 @@ export default function Home() {
                     <img
                       src={product.thumbnail}
                       alt={product.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
 
                     <div className="absolute top-4 right-4 space-y-2 opacity-0 group-hover:opacity-100 transition">
