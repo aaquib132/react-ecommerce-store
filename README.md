@@ -67,9 +67,8 @@
 
 <div align="center">
 
-<a href="frontend/public/PageImageAndVideo/ProjectVideo.mp4">
-<img src="frontend/public/PageImageAndVideo/HomePage.png" width="900" style="border-radius:10px; border:1px solid #ddd;" alt="Watch Demo">
-</a>
+https://github.com/user-attachments/assets/98e61b3a-4ea2-403a-8df9-cec1bfe01215
+
 
 <p><i>Click the image above to watch the walkthrough video (Requires GitHub access)</i></p>
 
