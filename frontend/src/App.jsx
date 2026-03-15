@@ -3,6 +3,7 @@ import "./App.css";
 import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 
 const Home = lazy(() => import("./pages/Home"));
@@ -25,37 +26,26 @@ function App() {
 
   return (
     <Router>
-      <Navbar/>
-      <ScrollToTop />
-      <Suspense fallback={<FallbackLoader />}>
-        <Routes>
-          <Route
-            path="/"
-            element={<Home/>}
-          />
-          <Route
-            path="products"
-            element={<ProductListing/>}
-          />
-
-          <Route
-            path="/products/:id"
-            element={<ProductDetail/>}
-          />
-          <Route
-            path="/wishlist"
-            element={<Wishlist/>}
-          />
-          <Route
-            path="/cart"
-            element={<Cart/>}
-          />
-        <Route path="/shipping" element={<ShippingPage />} />
-          <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/confirmation" element={<OrderConfirm />} />
-          <Route path="/profile" element={<ProfilePage />} />
-        </Routes>
-      </Suspense>
+      <div className="flex flex-col min-h-screen">
+        <Navbar/>
+        <ScrollToTop />
+        <main className="flex-grow">
+          <Suspense fallback={<FallbackLoader />}>
+            <Routes>
+              <Route path="/" element={<Home/>} />
+              <Route path="products" element={<ProductListing/>} />
+              <Route path="/products/:id" element={<ProductDetail/>} />
+              <Route path="/wishlist" element={<Wishlist/>} />
+              <Route path="/cart" element={<Cart/>} />
+              <Route path="/shipping" element={<ShippingPage />} />
+              <Route path="/payment" element={<PaymentPage />} />
+              <Route path="/confirmation" element={<OrderConfirm />} />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Routes>
+          </Suspense>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }

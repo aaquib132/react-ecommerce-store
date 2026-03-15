@@ -25,10 +25,38 @@ export default function PaymentPage() {
 
   const [method, setMethod] = useState("card");
   const [successOpen, setSuccessOpen] = useState(false);
+  
+  const [paymentDetails, setPaymentDetails] = useState({
+    cardNumber: "",
+    cardName: "",
+    cardExpiry: "",
+    cardCvv: "",
+    upiId: "",
+  });
+  
+  const [error, setError] = useState("");
 
   const handlePayment = () => {
-  setSuccessOpen(true);
-};
+    setError("");
+    
+    if (method === "card") {
+      if (!paymentDetails.cardNumber || !paymentDetails.cardName || !paymentDetails.cardExpiry || !paymentDetails.cardCvv) {
+        setError("Please fill in all card details.");
+        return;
+      }
+      if (paymentDetails.cardNumber.length < 16) {
+        setError("Invalid Card Number.");
+        return;
+      }
+    } else if (method === "upi") {
+      if (!paymentDetails.upiId || !paymentDetails.upiId.includes("@")) {
+        setError("Please enter a valid UPI ID (e.g., name@upi).");
+        return;
+      }
+    }
+    
+    setSuccessOpen(true);
+  };
 
   return (
     <div className="bg-slate-50 min-h-screen pt-28 pb-16">
@@ -56,10 +84,30 @@ export default function PaymentPage() {
 
               {method === "card" && (
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Input placeholder="Card Number" />
-                  <Input placeholder="Cardholder Name" />
-                  <Input placeholder="Expiry Date (MM/YY)" />
-                  <Input placeholder="CVV" />
+                  <Input 
+                    placeholder="Card Number" 
+                    maxLength={16}
+                    value={paymentDetails.cardNumber}
+                    onChange={(e) => setPaymentDetails({...paymentDetails, cardNumber: e.target.value.replace(/\D/g, '')})}
+                  />
+                  <Input 
+                    placeholder="Cardholder Name" 
+                    value={paymentDetails.cardName}
+                    onChange={(e) => setPaymentDetails({...paymentDetails, cardName: e.target.value})}
+                  />
+                  <Input 
+                    placeholder="Expiry Date (MM/YY)" 
+                    maxLength={5}
+                    value={paymentDetails.cardExpiry}
+                    onChange={(e) => setPaymentDetails({...paymentDetails, cardExpiry: e.target.value})}
+                  />
+                  <Input 
+                    placeholder="CVV" 
+                    type="password"
+                    maxLength={4}
+                    value={paymentDetails.cardCvv}
+                    onChange={(e) => setPaymentDetails({...paymentDetails, cardCvv: e.target.value.replace(/\D/g, '')})}
+                  />
                 </div>
               )}
 
@@ -75,7 +123,11 @@ export default function PaymentPage() {
 
               {method === "upi" && (
                 <div className="mt-6">
-                  <Input placeholder="example@upi" />
+                  <Input 
+                    placeholder="example@upi" 
+                    value={paymentDetails.upiId}
+                    onChange={(e) => setPaymentDetails({...paymentDetails, upiId: e.target.value})}
+                  />
                 </div>
               )}
 
@@ -176,6 +228,13 @@ export default function PaymentPage() {
                 <span>₹ {total.toLocaleString("en-IN")}</span>
               </div>
             </div>
+
+            {/* ERROR MESSAGE */}
+            {error && (
+              <div className="mt-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100">
+                {error}
+              </div>
+            )}
 
             {/* PAY BUTTON */}
 

@@ -20,8 +20,14 @@ export default function OrderConfirm() {
   const { clearCart } = useShop();
 
   useEffect(() => {
+    if (!location.state) {
+      window.location.href = "/";
+      return;
+    }
     clearCart();
-  }, [clearCart]);
+  }, [clearCart, location]);
+
+  if (!location.state) return null;
 
   const {
     checkoutItems = [],
@@ -279,12 +285,12 @@ export default function OrderConfirm() {
 
             {/* CONTINUE SHOPPING */}
 
-            <Link
-              to="/products"
+            <button
+              onClick={() => { window.location.href = "/products"; }}
               className="flex justify-center items-center w-full bg-indigo-600 cursor-pointer text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition"
             >
               Continue Shopping
-            </Link>
+            </button>
 
           </div>
 

@@ -96,28 +96,27 @@ export default function Navbar() {
 
             {/* LOGO */}
 
-            <Link
-              to="/"
+            <button
               onClick={() => {
                 setIsMenuOpen(false);
-                window.scrollTo(0, 0);
+                window.location.href = "/";
               }}
-              className="flex items-center space-x-2 z-50 relative"
+              className="flex items-center space-x-2 z-50 relative cursor-pointer"
             >
 
-              <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-lg sm:text-xl shrink-0">
                 M
               </div>
 
               <span
-                className={`text-2xl font-black tracking-tight ${
+                className={`text-xl sm:text-2xl font-black tracking-tight ${
                   scrolled ? "text-indigo-600" : "text-neutral-900"
                 }`}
               >
                 MyShoppingSite
               </span>
 
-            </Link>
+            </button>
 
             {/* SEARCH */}
 
@@ -250,7 +249,7 @@ export default function Navbar() {
 
       {isMenuOpen && (
 
-        <div className="fixed inset-0 bg-white z-40 pt-24 px-6 flex flex-col space-y-6 md:hidden animate-in fade-in slide-in-from-top duration-300">
+        <div className="fixed inset-0 bg-white z-40 pt-24 px-6 flex flex-col space-y-4 md:hidden animate-in fade-in slide-in-from-top duration-300">
 
           {["Men", "Women", "Electronics", "Home"].map((cat) => (
 
@@ -258,7 +257,7 @@ export default function Navbar() {
               key={cat}
               to={`/products?category=${cat.toLowerCase()}`}
               onClick={() => setIsMenuOpen(false)}
-              className="text-2xl font-bold border-b border-neutral-100 pb-2"
+              className="text-lg font-bold border-b border-neutral-100 pb-3 text-slate-800"
             >
               {cat}
             </Link>
@@ -268,7 +267,7 @@ export default function Navbar() {
           <Link
             to="/profile"
             onClick={() => setIsMenuOpen(false)}
-            className="text-2xl font-bold border-b border-neutral-100 pb-2 mt-4"
+            className="text-lg font-bold border-b border-neutral-100 pb-3 mt-2 text-slate-800"
           >
             Profile
           </Link>

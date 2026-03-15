@@ -1,4 +1,3 @@
-import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import ArrowRight from "lucide-react/dist/esm/icons/arrow-right";
 import ChevronRight from "lucide-react/dist/esm/icons/chevron-right";
@@ -287,8 +286,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }
