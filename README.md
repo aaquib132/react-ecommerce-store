@@ -12,6 +12,7 @@
 <img src="https://readme-typing-svg.herokuapp.com?font=Inter&size=24&duration=3000&pause=1000&center=true&vCenter=true&width=600&lines=Modern+Ecommerce+Web+Application;React+19+%2B+Node.js+%2B+MongoDB;Responsive+UI+%7C+Optimized+Performance;Full+Stack+Production+Architecture" alt="Typing SVG" />
 
 </div>
+
 ---
 
 ## 📖 Table of Contents
