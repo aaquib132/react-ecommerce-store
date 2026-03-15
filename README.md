@@ -16,12 +16,13 @@
 ---
 
 ## 📖 Table of Contents
-- [Overview](#-overview)
-- [Tech Stack](#-tech-stack)
-- [Key Features](#-key-features)
-- [Architecture](#-architecture)
-- [Installation](#-installation)
-- [Gallery](#-project-gallery)
+
+- [Overview](#overview)
+- [Tech Stack](#tech-stack)
+- [Key Features](#key-features)
+- [Project Gallery](#project-gallery)
+- [Architecture](#architecture)
+- [Installation](#installation)
 
 ---
 
@@ -59,63 +60,183 @@
 
 ---
 
+---
+
 ## 🎥 Demo Video
+
 <div align="center">
-  <a href="frontend/public/PageImageAndVideo/ProjectVideo.mp4">
-    <img src="frontend/public/PageImageAndVideo/HomePage.png" width="900" style="border-radius: 10px; border: 1px solid #ddd;" alt="Watch Demo">
-  </a>
-  <p><i>Click the image above to watch the walkthrough video</i></p>
+
+<a href="frontend/public/PageImageAndVideo/ProjectVideo.mp4">
+<img src="frontend/public/PageImageAndVideo/HomePage.png" width="900" style="border-radius:10px; border:1px solid #ddd;" alt="Watch Demo">
+</a>
+
+<p><i>Click the image above to watch the walkthrough video</i></p>
+
 </div>
 
 ---
 
 ## 🖼 Project Gallery
 
-<table style="width: 100%;">
-  <tr>
-    <td width="50%"><img src="frontend/public/PageImageAndVideo/HomePage.png" alt="Home"/><br/><b>🏠 Homepage</b></td>
-    <td width="50%"><img src="frontend/public/PageImageAndVideo/ProductListing.png" alt="Listing"/><br/><b>📦 Product Listing</b></td>
-  </tr>
-  <tr>
-    <td width="50%"><img src="frontend/public/PageImageAndVideo/CartPage.png" alt="Cart"/><br/><b>🛒 Cart System</b></td>
-    <td width="50%"><img src="frontend/public/PageImageAndVideo/MobileResposiveDesign.jpeg.jpeg" alt="Mobile"/><br/><b>📱 Mobile Experience</b></td>
-  </tr>
+<table style="width:100%;">
+
+<tr>
+<td width="50%" align="center">
+
+<img src="frontend/public/PageImageAndVideo/HomePage.png"/><br/>
+
+<b>🏠 Homepage</b>
+
+</td>
+
+<td width="50%" align="center">
+
+<img src="frontend/public/PageImageAndVideo/ProductListing.png"/><br/>
+
+<b>📦 Product Listing</b>
+
+</td>
+</tr>
+
+<tr>
+<td width="50%" align="center">
+
+<img src="frontend/public/PageImageAndVideo/ProductDetailsPage.png"/><br/>
+
+<b>🔍 Product Details</b>
+
+</td>
+
+<td width="50%" align="center">
+
+<img src="frontend/public/PageImageAndVideo/CartPage.png"/><br/>
+
+<b>🛒 Cart Page</b>
+
+</td>
+</tr>
+
+<tr>
+<td width="50%" align="center">
+
+<img src="frontend/public/PageImageAndVideo/WishlistPage.png"/><br/>
+
+<b>❤️ Wishlist</b>
+
+</td>
+
+<td width="50%" align="center">
+
+<img src="frontend/public/PageImageAndVideo/ShippingPage.png"/><br/>
+
+<b>🚚 Shipping Page</b>
+
+</td>
+</tr>
+
+<tr>
+<td width="50%" align="center">
+
+<img src="frontend/public/PageImageAndVideo/PaymentPage.png"/><br/>
+
+<b>💳 Payment Page</b>
+
+</td>
+
+<td width="50%" align="center">
+
+<img src="frontend/public/PageImageAndVideo/OrderConfirmPage.png"/><br/>
+
+<b>✅ Order Confirmation</b>
+
+</td>
+</tr>
+
 </table>
 
 ---
 
-## 🏗 Architecture
-```mermaid
-graph TD
-    A[React Frontend] -->|API Requests| B[Express Backend]
-    B -->|Query| C[(MongoDB Atlas)]
-    A -->|State| D[Context API / Store]
-    B -->|Auth/Logic| E[Service Layer]
-```
+## 📱 Mobile Responsive Design
+
+<div align="center">
+
+<img src="frontend/public/PageImageAndVideo/MobileResposiveDesign.jpeg.jpeg" width="350"/>
+
+<p><i>Fully responsive layout optimized for mobile, tablet, and desktop devices</i></p>
+
+</div>
+
+Mobile experience includes:
+
+- Custom mobile search bar
+- Touch-friendly product cards
+- Responsive filter system
+- Optimized product grid layout
 
 ---
+
+## 🏗 Architecture
+
+The project follows a **MERN (MongoDB, Express, React, Node.js)** stack architecture, emphasizing a decoupled frontend and backend for scalability and maintainability.
+
+### 🧩 System Design
+
+```mermaid
+graph TD
+    subgraph Client [Client Side - React]
+        A[React Frontend] -->|State Management| D[ShopContext]
+        A -->|Navigation| F[React Router]
+        A -->|Styling| G[Tailwind CSS]
+        A -->|API Calls| H[useFetch Hook]
+    end
+
+    H -->|HTTP/JSON| B[Express Backend]
+
+    subgraph Server [Server Side - Node.js]
+        B -->|Mongoose ODM| C[(MongoDB Atlas)]
+        B -->|Middleware| E[CORS / JSON Parsing]
+        B -->|Logic| I[Product Routes & Models]
+    end
+
+    subgraph Deployment
+        V[Vercel - Frontend] -.-> A
+        R[Render - Backend] -.-> B
+    end
+```
+
+### 🛠 Tech Stack Details
+
+- **Frontend**: Built with **Vite + React**. State is managed globally via the **Context API** (`ShopContext`). **Tailwind CSS** is used for responsive, modern styling.
+- **Backend**: A **RESTful API** built with **Express.js**. It handles data modeling and database queries using **Mongoose**.
+- **Database**: **MongoDB Atlas** serves as the cloud-hosted NoSQL database.
+- **Tools**: Includes **Lucide React** for iconography, **Confetti** for order success animations, and **Vite** for a fast development experience.
+
+
+---
+
 <details>
 <summary>📂 <b>View Project Structure</b></summary>
 
 ```text
 react-ecommerce-store
 ├── backend
-│   ├── db         # Connection logic
-│   ├── models     # Mongoose Schemas
-│   └── index.js   # Entry point
+│   ├── db         # Database connection logic
+│   ├── models     # Mongoose Schemas/Models
+│   └── index.js   # Express API entry point
 ├── frontend
-│   ├── components # Reusable UI
-│   ├── pages      # Route components
-│   ├── store      # State management
-│   └── src        # Main logic
+│   ├── src
+│   │   ├── components # Reusable UI components
+│   │   ├── pages      # Route-level components
+│   │   ├── store      # Context API (ShopContext)
+│   │   └── useFetch.js # Custom API fetching hook
+│   └── package.json   # Frontend dependencies
 └── README.md
-
 ```
 </details>
 
 ---
 
-### ⚙️ Quick Start
+## ⚙️ Installation
 
 ### 1. Clone & Install
 ```bash
