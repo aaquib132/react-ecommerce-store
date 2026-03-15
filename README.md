@@ -62,17 +62,27 @@
 | **💳 Smooth Checkout** | Multi-step shipping and payment flow with order confirmation. |
 
 ---
+---
 
-## 🎥 Demo Video
+## 🎥 Live Product Walkthrough
+
+Experience the full shopping flow of **MyShoppingSite** including product discovery, cart management, and checkout.
 
 <div align="center">
 
 https://github.com/user-attachments/assets/98e61b3a-4ea2-403a-8df9-cec1bfe01215
 
-
-<p><i>Click the image above to watch the walkthrough video (Requires GitHub access)</i></p>
-
 </div>
+
+### What this demo shows
+
+- Product browsing and category filtering  
+- Search functionality with suggestions  
+- Wishlist and cart management  
+- Shipping and payment workflow  
+- Order confirmation process  
+
+---
 
 ---
 
