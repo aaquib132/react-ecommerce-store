@@ -1,12 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ArrowRight from "lucide-react/dist/esm/icons/arrow-right";
 import ChevronRight from "lucide-react/dist/esm/icons/chevron-right";
 import ShoppingBag from "lucide-react/dist/esm/icons/shopping-bag";
 import Heart from "lucide-react/dist/esm/icons/heart";
 import Star from "lucide-react/dist/esm/icons/star";
+import X from "lucide-react/dist/esm/icons/x";
+
 import SearchBar from "../components/MobileSearchBar";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo } from "react";
 
 import useFetch from "../useFetch";
 import { useShop } from "../store/ShopContext";
@@ -56,36 +58,9 @@ export default function Home() {
 
   const { toggleCart, toggleWishlist, wishlistItems } = useShop();
 
-  const navigate = useNavigate();
-
   const { data, loading } = useFetch(`${import.meta.env.VITE_API_URL}/products`);
 
   const [openVideo, setOpenVideo] = useState(false);
-
-  const [search, setSearch] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
-
-  const searchRef = useRef(null);
-
-  /* Close suggestion dropdown */
-
-  useEffect(() => {
-
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowSuggestions(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-
-  }, []);
-
-  /* Trending Products */
 
   const trendingProducts = useMemo(() => {
 
@@ -94,35 +69,6 @@ export default function Home() {
     return [...data].sort((a, b) => b.rating - a.rating).slice(0, 4);
 
   }, [data]);
-
-  /* Search suggestions */
-
-  const suggestions = useMemo(() => {
-
-    if (!data || !search.trim()) return [];
-
-    const query = search.toLowerCase();
-
-    return data
-      .filter((product) =>
-        product.title.toLowerCase().includes(query)
-      )
-      .slice(0, 5);
-
-  }, [data, search]);
-
-  const handleSearch = (e) => {
-
-    e.preventDefault();
-
-    if (!search.trim()) return;
-
-    navigate(`/products?search=${search}`);
-
-    setShowSuggestions(false);
-    setSearch("");
-
-  };
 
   if (loading) return <HomeSkeleton />;
 
@@ -220,7 +166,7 @@ export default function Home() {
 
                 <button
                   onClick={() => setOpenVideo(true)}
-                  className="border-2 border-white/30 text-white backdrop-blur-md px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold hover:bg-white/10 transition"
+                  className="border-2 border-white/30 text-white backdrop-blur-md px-6 py-3 sm:px-8 sm:py-4 rounded-full cursor-pointer font-bold hover:bg-white/10 transition"
                 >
                   Watch Film
                 </button>
@@ -339,7 +285,34 @@ export default function Home() {
 
       </main>
 
-    </div>
+      {/* VIDEO MODAL */}
 
+      {openVideo && (
+
+        <div className="fixed inset-0 z-50 bg-black/80  flex items-center justify-center p-4">
+
+          <div className="relative w-full max-w-5xl mt-8 aspect-video">
+
+            <button
+              onClick={() => setOpenVideo(false)}
+              className="absolute -top-8 right-0 cursor-pointer text-white"
+            >
+              <X className="w-8 h-8"/>
+            </button>
+
+            <iframe
+              className="w-full h-full rounded-xl"
+              src="https://www.youtube.com/embed/EzvH3yKeNRo"
+              title="Fashion Film"
+              allowFullScreen
+            />
+
+          </div>
+
+        </div>
+
+      )}
+
+    </div>
   );
 }
