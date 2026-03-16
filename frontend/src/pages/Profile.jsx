@@ -5,198 +5,298 @@ import {
   Package,
   Mail,
   Phone,
-  Camera
+  Camera,
+  Pencil,
+  Trash,
+  Plus
 } from "lucide-react";
 
 export default function ProfilePage() {
 
   const [activeTab, setActiveTab] = useState("profile");
 
-  const [form, setForm] = useState({
+  const [profile, setProfile] = useState({
     firstName: "Aaquib",
     lastName: "Ahmad",
     birthDate: "",
     phone: "9000000000",
-    email: "aaqib@example.com",
-    address: "Gandhi Nagar",
-    city: "Ahmedabad",
-    zip: "380001",
-    country: "India"
+    email: "aaqib@example.com"
   });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const [addresses, setAddresses] = useState([
+    {
+      id: 1,
+      address: "Gandhi Nagar",
+      city: "Ahmedabad",
+      zip: "380001",
+      country: "India"
+    }
+  ]);
+
+  const [addressForm, setAddressForm] = useState({
+    address: "",
+    city: "",
+    zip: "",
+    country: ""
+  });
+
+  const [editingId, setEditingId] = useState(null);
+  const [showAddressForm, setShowAddressForm] = useState(false);
+
+  const handleProfileChange = (e) => {
+    setProfile({ ...profile, [e.target.name]: e.target.value });
+  };
+
+  const handleAddressChange = (e) => {
+    setAddressForm({ ...addressForm, [e.target.name]: e.target.value });
+  };
+
+  const saveAddress = () => {
+
+    if (editingId) {
+      setAddresses(
+        addresses.map(addr =>
+          addr.id === editingId
+            ? { ...addr, ...addressForm }
+            : addr
+        )
+      );
+    } else {
+
+      const newAddress = {
+        id: Date.now(),
+        ...addressForm
+      };
+
+      setAddresses([...addresses, newAddress]);
+    }
+
+    setAddressForm({
+      address: "",
+      city: "",
+      zip: "",
+      country: ""
+    });
+
+    setEditingId(null);
+    setShowAddressForm(false);
+  };
+
+  const editAddress = (addr) => {
+    setAddressForm(addr);
+    setEditingId(addr.id);
+    setShowAddressForm(true);
+  };
+
+  const deleteAddress = (id) => {
+    setAddresses(addresses.filter(a => a.id !== id));
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pt-28 pb-16">
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-b from-slate-50 to-white pt-28 pb-16">
 
-        {/* HEADER */}
+      <div className="max-w-7xl mx-auto px-6">
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-8 flex items-center justify-between">
+        {/* PROFILE HEADER */}
 
-          <div className="flex items-center gap-5">
+        <div className="bg-white shadow-lg rounded-3xl p-8 mb-10 flex items-center justify-between">
+
+          <div className="flex items-center gap-6">
 
             <div className="relative group">
 
-              <div className="w-16 h-16 rounded-full bg-indigo-600 text-white flex items-center justify-center text-lg font-semibold">
-                {form.firstName.charAt(0)}
+              <div className="w-20 h-20 rounded-full bg-linear-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center text-2xl font-bold shadow-lg">
+                {profile.firstName.charAt(0)}
               </div>
 
-              <div className="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-
-                <Camera size={16} className="text-white"/>
-
+              <div className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                <Camera size={18} className="text-white"/>
               </div>
 
             </div>
 
             <div>
-              <h1 className="text-xl font-semibold text-slate-800">
-                {form.firstName} {form.lastName}
+
+              <h1 className="text-2xl font-semibold text-slate-800">
+                {profile.firstName} {profile.lastName}
               </h1>
 
-              <p className="text-sm text-slate-500">
+              <p className="text-slate-500 text-sm">
                 Manage your account settings
               </p>
+
             </div>
 
           </div>
 
           <div className="hidden md:flex gap-6 text-sm text-slate-600">
+
             <div className="flex items-center gap-2">
-              <Mail size={14} />
-              {form.email}
+              <Mail size={16}/>
+              {profile.email}
             </div>
 
             <div className="flex items-center gap-2">
-              <Phone size={14} />
-              {form.phone}
+              <Phone size={16}/>
+              {profile.phone}
             </div>
+
           </div>
 
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-8">
+        <div className="grid lg:grid-cols-4 gap-10">
 
           {/* SIDEBAR */}
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-2 sm:p-3 h-fit flex lg:flex-col gap-2 overflow-x-auto scrollbar-hide">
+          <div className="bg-white rounded-2xl shadow-md p-4 space-y-2 h-fit">
 
             <SidebarItem
               icon={<User size={18}/>}
-              label="Profile Details"
+              label="Profile"
               active={activeTab==="profile"}
               onClick={()=>setActiveTab("profile")}
             />
 
             <SidebarItem
               icon={<MapPin size={18}/>}
-              label="Saved Address"
+              label="Addresses"
               active={activeTab==="address"}
               onClick={()=>setActiveTab("address")}
             />
 
             <SidebarItem
               icon={<Package size={18}/>}
-              label="Order History"
+              label="Orders"
               active={activeTab==="orders"}
               onClick={()=>setActiveTab("orders")}
             />
 
           </div>
 
-          {/* CONTENT */}
+          {/* MAIN CONTENT */}
 
           <div className="lg:col-span-3 space-y-8">
 
-            {/* PROFILE DETAILS */}
+            {activeTab==="profile" && (
 
-            {activeTab === "profile" && (
+              <Card title="Personal Information">
 
-              <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-8">
+                <div className="grid md:grid-cols-2 gap-5">
 
-                <h2 className="text-lg font-semibold mb-6">
-                  Personal Information
-                </h2>
-
-                <div className="grid md:grid-cols-2 gap-4 mb-4">
-
-                  <Input label="First Name" name="firstName" value={form.firstName} onChange={handleChange}/>
-                  <Input label="Last Name" name="lastName" value={form.lastName} onChange={handleChange}/>
+                  <Input label="First Name" name="firstName" value={profile.firstName} onChange={handleProfileChange}/>
+                  <Input label="Last Name" name="lastName" value={profile.lastName} onChange={handleProfileChange}/>
+                  <Input label="Birth Date" type="date" name="birthDate" value={profile.birthDate} onChange={handleProfileChange}/>
+                  <Input label="Phone" name="phone" value={profile.phone} onChange={handleProfileChange}/>
 
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4 mb-4">
+                <Input label="Email" name="email" value={profile.email} onChange={handleProfileChange}/>
 
-                  <Input label="Birth Date" type="date" name="birthDate" value={form.birthDate} onChange={handleChange}/>
-                  <Input label="Phone" name="phone" value={form.phone} onChange={handleChange}/>
-
-                </div>
-
-                <Input label="Email Address" name="email" value={form.email} onChange={handleChange}/>
-
-                <button className="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-lg text-sm font-medium transition">
+                <button className="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl text-sm font-medium shadow">
                   Save Changes
                 </button>
 
-              </div>
+              </Card>
 
             )}
 
-            {/* ADDRESS */}
+            {activeTab==="address" && (
 
-            {activeTab === "address" && (
+              <Card title="Saved Addresses">
 
-              <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-8">
+                <div className="flex justify-end mb-6">
 
-                <h2 className="text-lg font-semibold mb-6">
-                  Shipping Address
-                </h2>
-
-                <div className="grid md:grid-cols-2 gap-4 mb-4">
-
-                  <Input label="Street Address" name="address" value={form.address} onChange={handleChange}/>
-                  <Input label="City" name="city" value={form.city} onChange={handleChange}/>
-
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-
-                  <Input label="ZIP Code" name="zip" value={form.zip} onChange={handleChange}/>
-                  <Input label="Country" name="country" value={form.country} onChange={handleChange}/>
+                  <button
+                    onClick={()=>setShowAddressForm(true)}
+                    className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-700"
+                  >
+                    <Plus size={16}/>
+                    Add Address
+                  </button>
 
                 </div>
 
-                <button className="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-lg text-sm font-medium transition">
-                  Save Address
-                </button>
+                <div className="grid md:grid-cols-2 gap-6">
 
-              </div>
+                  {addresses.map(addr => (
+
+                    <div
+                      key={addr.id}
+                      className="bg-slate-50 rounded-xl p-5 hover:shadow-md transition relative"
+                    >
+
+                      <p className="font-medium text-slate-800">
+                        {addr.address}
+                      </p>
+
+                      <p className="text-sm text-slate-500 mt-1">
+                        {addr.city}, {addr.zip}, {addr.country}
+                      </p>
+
+                      <div className="flex gap-4 absolute top-4 right-4">
+
+                        <button
+                          onClick={()=>editAddress(addr)}
+                          className="text-indigo-600"
+                        >
+                          <Pencil size={16}/>
+                        </button>
+
+                        <button
+                          onClick={()=>deleteAddress(addr.id)}
+                          className="text-red-500"
+                        >
+                          <Trash size={16}/>
+                        </button>
+
+                      </div>
+
+                    </div>
+
+                  ))}
+
+                </div>
+
+                {showAddressForm && (
+
+                  <div className="mt-8 bg-slate-50 p-6 rounded-xl space-y-4">
+
+                    <Input label="Street Address" name="address" value={addressForm.address} onChange={handleAddressChange}/>
+                    <Input label="City" name="city" value={addressForm.city} onChange={handleAddressChange}/>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+
+                      <Input label="ZIP Code" name="zip" value={addressForm.zip} onChange={handleAddressChange}/>
+                      <Input label="Country" name="country" value={addressForm.country} onChange={handleAddressChange}/>
+
+                    </div>
+
+                    <button
+                      onClick={saveAddress}
+                      className="bg-indigo-600 text-white px-6 py-3 rounded-lg"
+                    >
+                      Save Address
+                    </button>
+
+                  </div>
+
+                )}
+
+              </Card>
 
             )}
 
-            {/* ORDERS */}
+            {activeTab==="orders" && (
 
-            {activeTab === "orders" && (
+              <Card title="Order History">
 
-              <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-8">
+                <OrderCard/>
+                <OrderCard/>
+                <OrderCard/>
 
-                <h2 className="text-lg font-semibold mb-6">
-                  Order History
-                </h2>
-
-                <div className="space-y-4">
-
-                  <OrderCard/>
-                  <OrderCard/>
-                  <OrderCard/>
-
-                </div>
-
-              </div>
+              </Card>
 
             )}
 
@@ -210,60 +310,71 @@ export default function ProfilePage() {
   );
 }
 
+function Card({title,children}){
+
+  return(
+    <div className="bg-white shadow-md rounded-2xl p-8 space-y-6">
+      <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+      {children}
+    </div>
+  )
+}
+
 function Input({label,...props}){
 
   return(
-    <div>
+
+    <div className="mt-4">
 
       <label className="text-xs text-slate-500">{label}</label>
 
       <input
-      {...props}
-      className="mt-1 border border-slate-200 rounded-lg p-3 w-full text-sm
-      focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none transition"
+        {...props}
+        className="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none transition"
       />
 
     </div>
   )
-
 }
 
 function SidebarItem({icon,label,active,onClick}){
 
   return(
+
     <div
-    onClick={onClick}
-    className={`flex items-center gap-2 sm:gap-3 px-3 py-2 sm:p-3 rounded-lg cursor-pointer text-sm transition whitespace-nowrap
-    ${active
-      ? "bg-indigo-50 text-indigo-600"
-      : "text-slate-600 hover:bg-slate-50"
-    }`}
+      onClick={onClick}
+      className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer text-sm transition
+      ${active
+        ? "bg-indigo-50 text-indigo-600"
+        : "text-slate-600 hover:bg-slate-50"
+      }`}
     >
       {icon}
-      <span>{label}</span>
+      {label}
     </div>
   )
-
 }
 
 function OrderCard(){
 
   return(
 
-    <div className="border border-slate-100 rounded-lg p-4 flex justify-between items-center hover:shadow-sm transition">
+    <div className="flex justify-between items-center bg-slate-50 p-5 rounded-xl hover:shadow-md transition">
 
       <div>
+
         <p className="font-medium">Order #847382</p>
         <p className="text-sm text-slate-500">Placed on 12 March 2026</p>
+
       </div>
 
       <div className="text-right">
+
         <p className="font-semibold">₹2,499</p>
         <p className="text-xs text-green-600">Delivered</p>
+
       </div>
 
     </div>
-
   )
-
 }
