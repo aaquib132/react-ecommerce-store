@@ -33,9 +33,10 @@ export default function ProductDetails() {
     productFromState ? null : `${import.meta.env.VITE_API_URL}/products/${id}`,
   );
 
-  const { data: allProducts } = useFetch(`${import.meta.env.VITE_API_URL}/products`)
+  const { data: allProducts } = useFetch(
+    `${import.meta.env.VITE_API_URL}/products`
+  );
 
-  // Hooks must always run before any return
   const [qty, setQty] = useState(1);
   const [img, setImg] = useState(null);
   const [size, setSize] = useState("M");
@@ -76,8 +77,9 @@ export default function ProductDetails() {
   return (
     <div className="bg-[#F5F5F5] mt-20 min-h-screen pt-12 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white p-8 rounded-2xl shadow-sm">
+        <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm">
           <div className="grid md:grid-cols-2 gap-12">
+
             {/* IMAGE SECTION */}
             <div className="space-y-6">
               <div className="relative bg-gray-100 p-6 sm:p-10 rounded-xl flex justify-center items-center group">
@@ -103,7 +105,7 @@ export default function ProductDetails() {
               </div>
 
               {/* THUMBNAILS */}
-              <div className="flex gap-4 justify-center">
+              <div className="flex gap-4 justify-center flex-wrap">
                 {images?.map((i) => (
                   <img
                     key={i}
@@ -131,7 +133,7 @@ export default function ProductDetails() {
                       },
                     })
                   }
-                  className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold cursor-pointer transition hover:scale-[1.02]"
+                  className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition hover:scale-[1.02]"
                 >
                   <ShoppingCart size={18} />
                   Buy Now
@@ -139,7 +141,7 @@ export default function ProductDetails() {
 
                 <button
                   onClick={() => toggleCart(product)}
-                  className={`py-3 rounded-lg font-semibold cursor-pointer transition flex items-center justify-center gap-2 ${
+                  className={`py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2 ${
                     cartItems?.some(item => item._id === product._id)
                       ? "bg-indigo-600 text-white"
                       : "bg-gray-900 text-white hover:bg-black"
@@ -221,17 +223,17 @@ export default function ProductDetails() {
                 In Stock • Ready to ship
               </p>
 
-              {/* SIZE SELECTOR ONLY FOR CLOTHING */}
+              {/* SIZE SELECTOR (MOBILE FRIENDLY) */}
               {isClothing && (
                 <div className="mt-8">
                   <span className="font-medium">Select Size</span>
 
-                  <div className="flex gap-3 mt-4">
+                  <div className="flex flex-wrap gap-3 mt-4">
                     {["S", "M", "L", "XL"].map((s) => (
                       <button
                         key={s}
                         onClick={() => setSize(s)}
-                        className={`px-5 py-2 rounded-lg cursor-pointer border transition ${
+                        className={`min-w-15 px-4 py-2 text-sm sm:text-base rounded-lg cursor-pointer border transition ${
                           size === s
                             ? "border-indigo-600 bg-indigo-50 text-indigo-600"
                             : "hover:border-gray-400"
@@ -291,65 +293,6 @@ export default function ProductDetails() {
                 <ProductCard key={product._id} product={product} />
               ))}
             </div>
-          </div>
-
-          {/* CUSTOMER REVIEWS */}
-          <div className="mt-20 border-t pt-12">
-            <h2 className="text-xl font-semibold mb-8">Customer Reviews</h2>
-
-            {product.reviews?.length === 0 || !product.reviews ? (
-              <p className="text-slate-500">No reviews yet.</p>
-            ) : (
-              <div className="space-y-6">
-                {product.reviews.map((review, index) => (
-                  <div
-                    key={index}
-                    className="bg-slate-50 p-6 rounded-xl border border-slate-100"
-                  >
-                    {/* Review Header */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        {/* Avatar */}
-                        <div className="w-10 h-10 bg-indigo-100 text-indigo-600 flex items-center justify-center rounded-full font-semibold">
-                          {review.reviewerName.charAt(0)}
-                        </div>
-
-                        <div>
-                          <p className="font-medium text-slate-800">
-                            {review.reviewerName}
-                          </p>
-
-                          {/* Rating */}
-                          <div className="flex gap-1 text-yellow-500">
-                            {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                size={14}
-                                className={
-                                  i < review.rating
-                                    ? "fill-yellow-500 text-yellow-500"
-                                    : "text-slate-300"
-                                }
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Date */}
-                      <span className="text-xs text-slate-400">
-                        {new Date(review.date).toLocaleDateString()}
-                      </span>
-                    </div>
-
-                    {/* Comment */}
-                    <p className="text-slate-600 mt-4 text-sm leading-relaxed">
-                      {review.comment}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </div>

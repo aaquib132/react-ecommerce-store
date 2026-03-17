@@ -227,7 +227,7 @@ export default function Home() {
                           e.preventDefault();
                           toggleWishlist(product);
                         }}
-                        className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow"
+                        className="w-10 h-10 bg-white rounded-full flex items-center cursor-pointer justify-center shadow"
                       >
                         <Heart
                           className={`w-5 h-5 ${
@@ -245,7 +245,7 @@ export default function Home() {
                           e.preventDefault();
                           toggleCart(product);
                         }}
-                        className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow"
+                        className="w-10 h-10 bg-white rounded-full flex items-center cursor-pointer justify-center shadow"
                       >
                         <ShoppingBag className="w-5 h-5" />
                       </button>
