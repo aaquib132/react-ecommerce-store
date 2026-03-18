@@ -38,9 +38,9 @@ export default function OrderConfirm() {
       status: "Confirmed",
     };
 
-    const alreadyExists = existingOrders.some(
-  (order) => order.id === orderId
-);
+    const alreadyExists = existingOrders.find(
+      (order) => order.id === newOrder.id,
+    );
 
     if (!alreadyExists) {
       localStorage.setItem(

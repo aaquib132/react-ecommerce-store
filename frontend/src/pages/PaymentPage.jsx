@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import OrderSuccessModal from "../components/OrderSuccessModal";
 
-import { formatPrice, formatINR } from "../utils/priceUtils";
+import { formatINR } from "../utils/priceUtils";
 
 export default function PaymentPage() {
   const location = useLocation();

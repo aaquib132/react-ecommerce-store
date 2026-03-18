@@ -51,10 +51,6 @@ export function ShopProvider({ children }) {
 
   const [state, dispatch] = useReducer(shopReducer, initialState);
 
-  /* ---------------------------- */
-  /* Persist to localStorage */
-  /* ---------------------------- */
-
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(state.cart));
   }, [state.cart]);
@@ -62,10 +58,6 @@ export function ShopProvider({ children }) {
   useEffect(() => {
     localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
   }, [state.wishlist]);
-
-  /* ---------------------------- */
-  /* Actions */
-  /* ---------------------------- */
 
   const toggleCart = (product) => {
     dispatch({ type: "TOGGLE_CART", payload: product });

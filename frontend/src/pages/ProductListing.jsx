@@ -121,7 +121,7 @@ export default function ProductListing() {
 
     setTimeout(() => {
       setResetLoading(false);
-    }, 600); // small delay for UX smoothness
+    }, 600); 
   };
 
   if (loading || resetLoading) {
@@ -135,7 +135,6 @@ export default function ProductListing() {
         {/* MOBILE SEARCH + FILTER */}
 
         <div className="lg:hidden flex items-stretch gap-3">
-          {/* SEARCH */}
           <div className="flex-1">
             <SearchBar />
           </div>
