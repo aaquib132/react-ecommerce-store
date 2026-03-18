@@ -65,7 +65,7 @@ export default function ProfilePage() {
 
   /* ✅ ORDERS LOCAL STORAGE */
 
-  const [orders, setOrders] = useState(() => {
+  const [orders] = useState(() => {
     try {
       const stored = localStorage.getItem("orders");
       return stored ? JSON.parse(stored) : [];

@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useMemo, useRef } from "react";
 import {
   Heart,
   Star,
@@ -366,7 +365,7 @@ export default function ProductDetails() {
           <div className="flex items-start gap-4">
 
             {/* AVATAR */}
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center text-sm font-semibold shadow">
+            <div className="w-10 h-10 rounded-full bg-linear-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center text-sm font-semibold shadow">
               {review.reviewerName?.charAt(0) || "U"}
             </div>
 

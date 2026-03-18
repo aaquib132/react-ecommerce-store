@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MapPin, Phone, User, Truck, ShieldCheck } from "lucide-react";
 import { formatINR } from "../utils/priceUtils";
@@ -48,14 +48,16 @@ export default function ShippingPage() {
   const [errors, setErrors] = useState({});
 
   /* SAVED ADDRESSES */
-
-  const [savedAddresses, setSavedAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
 
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("addresses")) || [];
-    setSavedAddresses(stored);
-  }, []);
+  const [savedAddresses] = useState(() => {
+  try {
+    const stored = localStorage.getItem("addresses");
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+});
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
