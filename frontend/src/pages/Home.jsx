@@ -14,7 +14,7 @@ import useFetch from "../useFetch";
 import { useShop } from "../store/ShopContext";
 import HomeSkeleton from "../components/HomeSkeleton";
 
-const USD_TO_INR = 92;
+import { formatPrice } from "../utils/priceUtils";
 
 const CATEGORIES = [
   {
@@ -263,7 +263,7 @@ export default function Home() {
                 <div className="flex items-center justify-between">
 
                   <span className="text-xl font-black">
-                    ₹ {(product.price * USD_TO_INR).toLocaleString("en-IN")}
+                    ₹ {formatPrice(product.price)}
                   </span>
 
                   <div className="flex items-center text-amber-500">

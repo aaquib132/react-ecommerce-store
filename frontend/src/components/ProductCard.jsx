@@ -2,7 +2,7 @@ import { Heart, ShoppingCart, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useShop } from "../store/ShopContext";
 
-const USD_TO_INR = 92;
+import { formatPrice } from "../utils/priceUtils";
 
 export default function ProductCard({ product, viewMode = "grid" }) {
   const { toggleCart, toggleWishlist, cartItems, wishlistItems } = useShop();
@@ -50,7 +50,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
         {/* PRICE */}
         <div className="flex items-baseline gap-2">
           <span className="text-xl font-bold text-slate-900">
-            ₹ {(product.price * USD_TO_INR).toLocaleString("en-IN")}
+            ₹ {formatPrice(product.price)}
           </span>
         </div>
 

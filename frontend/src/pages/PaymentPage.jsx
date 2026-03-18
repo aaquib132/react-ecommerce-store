@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import OrderSuccessModal from "../components/OrderSuccessModal";
 
-const USD_TO_INR = 92;
+import { formatPrice, formatINR } from "../utils/priceUtils";
 
 export default function PaymentPage() {
   const location = useLocation();
@@ -197,12 +197,7 @@ export default function PaymentPage() {
                   </div>
 
                   <span className="text-sm font-semibold">
-                    ₹{" "}
-                    {(
-                      item.price *
-                      USD_TO_INR *
-                      (item.quantity || 1)
-                    ).toLocaleString("en-IN")}
+                    ₹{formatINR(item.price * 92 * (item.quantity || 1))}
                   </span>
                 </div>
               ))}
@@ -215,17 +210,17 @@ export default function PaymentPage() {
 
               <div className="flex justify-between text-green-600">
                 <span>Discount</span>
-                <span>- ₹ {discount.toLocaleString("en-IN")}</span>
+                <span>- ₹ {formatINR(discount)}</span>
               </div>
 
               <div className="flex justify-between text-slate-500">
                 <span>Shipping</span>
-                <span>{shipping === 0 ? "Free" : `₹${shipping}`}</span>
+                <span>{shipping === 0 ? "Free" : `₹${formatINR(shipping)}`}</span>
               </div>
 
               <div className="flex justify-between text-lg font-bold pt-3 border-t">
                 <span>Total</span>
-                <span>₹ {total.toLocaleString("en-IN")}</span>
+                <span>₹ {formatINR(total)}</span>
               </div>
             </div>
 
@@ -242,7 +237,7 @@ export default function PaymentPage() {
               onClick={handlePayment}
               className="mt-6 w-full cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold shadow-lg transition hover:scale-[1.01]"
             >
-              Pay ₹ {total.toLocaleString("en-IN")}
+              Pay ₹ {formatINR(total)}
             </button>
           </div>
         </div>
@@ -302,7 +297,7 @@ function PriceRow({ label, value }) {
   return (
     <div className="flex justify-between text-slate-600">
       <span>{label}</span>
-      <span>₹ {value.toLocaleString("en-IN")}</span>
+      <span>₹ {formatINR(value)}</span>
     </div>
   );
 }

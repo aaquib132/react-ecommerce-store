@@ -3,7 +3,7 @@ import { Minus, Plus, Heart, Trash2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useShop } from "../store/ShopContext";
 
-const USD_TO_INR = 92;
+import { formatPrice, formatINR } from "../utils/priceUtils";
 
 export default function Cart() {
   const { cartItems, toggleCart, toggleWishlist } = useShop();
@@ -28,7 +28,7 @@ export default function Cart() {
   /* PRICE CALCULATIONS */
 
   const subtotal = cartProducts.reduce(
-    (sum, p) => sum + p.price * USD_TO_INR * getQty(p._id),
+    (sum, p) => sum + p.price * 92 * getQty(p._id),
     0,
   );
 
@@ -97,14 +97,11 @@ export default function Cart() {
 
                   <div className="flex items-center gap-3 mt-2">
                     <span className="text-2xl font-bold">
-                      ₹ {(product.price * USD_TO_INR).toLocaleString("en-IN")}
+                      ₹ {formatPrice(product.price)}
                     </span>
 
                     <span className="line-through text-gray-400">
-                      ₹{" "}
-                      {(product.price * 1.4 * USD_TO_INR).toLocaleString(
-                        "en-IN",
-                      )}
+                      ₹ {formatINR(product.price * 1.4 * 92)}
                     </span>
                   </div>
 
@@ -139,12 +136,7 @@ export default function Cart() {
                   {/* ITEM SUBTOTAL */}
 
                   <p className="mt-2 text-sm text-gray-500">
-                    Subtotal: ₹{" "}
-                    {(
-                      product.price *
-                      USD_TO_INR *
-                      getQty(product._id)
-                    ).toLocaleString("en-IN")}
+                    Subtotal: ₹ {formatINR(product.price * 92 * getQty(product._id))}
                   </p>
 
                   {/* ACTION BUTTONS */}
@@ -189,12 +181,12 @@ export default function Cart() {
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
                 <span>Price ({cartProducts.length} items)</span>
-                <span>₹{subtotal.toLocaleString("en-IN")}</span>
+                <span>₹{formatINR(subtotal)}</span>
               </div>
 
               <div className="flex justify-between text-green-600">
                 <span>Discount</span>
-                <span>- ₹{discount.toLocaleString("en-IN")}</span>
+                <span>- ₹{formatINR(discount)}</span>
               </div>
 
               <div className="flex justify-between">
@@ -202,25 +194,25 @@ export default function Cart() {
                 <span>
                   {delivery === 0
                     ? "FREE"
-                    : `₹${delivery.toLocaleString("en-IN")}`}
+                    : `₹${formatINR(delivery)}`}
                 </span>
               </div>
             </div>
 
             {subtotal < 2000 && (
               <div className="mt-4 text-sm text-orange-600">
-                Add ₹{(2000 - subtotal).toLocaleString("en-IN")} more to get
+                Add ₹{formatINR(2000 - subtotal)} more to get
                 FREE delivery
               </div>
             )}
 
             <div className="border-t mt-4 pt-4 flex justify-between font-semibold text-lg">
               <span>TOTAL AMOUNT</span>
-              <span>₹{total.toLocaleString("en-IN")}</span>
+              <span>₹{formatINR(total)}</span>
             </div>
 
             <p className="text-sm text-green-600 mt-3">
-              You will save ₹{discount.toLocaleString("en-IN")} on this order
+              You will save ₹{formatINR(discount)} on this order
             </p>
 
             <button

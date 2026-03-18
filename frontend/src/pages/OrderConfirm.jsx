@@ -12,7 +12,7 @@ import jsPDF from "jspdf";
 import { useState, useEffect } from "react";
 import { useShop } from "../store/ShopContext";
 
-const USD_TO_INR = 92;
+import { formatINR } from "../utils/priceUtils";
 
 export default function OrderConfirm() {
   const location = useLocation();
@@ -27,6 +27,28 @@ export default function OrderConfirm() {
       window.location.href = "/";
       return;
     }
+
+    const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    const newOrder = {
+      id: orderId,
+      items: location.state.checkoutItems,
+      total: location.state.pricing.total,
+      date: new Date().toLocaleDateString(),
+      status: "Confirmed",
+    };
+
+    const alreadyExists = existingOrders.some(
+  (order) => order.id === orderId
+);
+
+    if (!alreadyExists) {
+      localStorage.setItem(
+        "orders",
+        JSON.stringify([newOrder, ...existingOrders]),
+      );
+    }
+
     clearCart();
   }, [clearCart, location]);
 
@@ -69,9 +91,7 @@ export default function OrderConfirm() {
       doc.text(`${item.title}  (Qty: ${item.quantity || 1})`, 20, y);
 
       doc.text(
-        `₹ ${(item.price * USD_TO_INR * (item.quantity || 1)).toLocaleString(
-          "en-IN",
-        )}`,
+        `₹ ${formatINR(item.price * 92 * (item.quantity || 1))}`,
         150,
         y,
       );
@@ -81,16 +101,20 @@ export default function OrderConfirm() {
 
     y += 10;
 
-    doc.text(`Subtotal: ₹ ${subtotal}`, 20, y);
+    doc.text(`Subtotal: ₹ ${formatINR(subtotal)}`, 20, y);
     y += 10;
 
-    doc.text(`Shipping: ${shipping === 0 ? "Free" : "₹" + shipping}`, 20, y);
+    doc.text(
+      `Shipping: ${shipping === 0 ? "Free" : "₹" + formatINR(shipping)}`,
+      20,
+      y,
+    );
     y += 10;
 
-    doc.text(`Discount: ₹ ${discount}`, 20, y);
+    doc.text(`Discount: ₹ ${formatINR(discount)}`, 20, y);
     y += 10;
 
-    doc.text(`Total: ₹ ${total}`, 20, y);
+    doc.text(`Total: ₹ ${formatINR(total)}`, 20, y);
 
     doc.save("invoice.pdf");
   };
@@ -189,12 +213,7 @@ export default function OrderConfirm() {
                 </div>
 
                 <span className="font-semibold">
-                  ₹
-                  {(
-                    item.price *
-                    USD_TO_INR *
-                    (item.quantity || 1)
-                  ).toLocaleString("en-IN")}
+                  ₹ {formatINR(item.price * 92 * (item.quantity || 1))}
                 </span>
               </div>
             ))}
@@ -209,17 +228,17 @@ export default function OrderConfirm() {
               <h2 className="font-semibold mb-4">Order Summary</h2>
 
               <div className="space-y-2 text-sm">
-                <Row label="Subtotal" value={`₹${subtotal}`} />
+                <Row label="Subtotal" value={`₹${formatINR(subtotal)}`} />
                 <Row
                   label="Shipping"
-                  value={shipping === 0 ? "Free" : `₹${shipping}`}
+                  value={shipping === 0 ? "Free" : `₹${formatINR(shipping)}`}
                 />
-                <Row label="Discount" value={`₹${discount}`} />
+                <Row label="Discount" value={`₹${formatINR(discount)}`} />
               </div>
 
               <div className="border-t mt-4 pt-4 flex justify-between font-semibold">
                 <span>Total</span>
-                <span>₹{total}</span>
+                <span>₹{formatINR(total)}</span>
               </div>
             </div>
 

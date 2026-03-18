@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ProductListingSkeleton from "../components/ProductListingSkeleton";
 import SearchBar from "../components/MobileSearchBar";
 
-const USD_TO_INR = 92;
+import { formatINR } from "../utils/priceUtils";
 
 export default function ProductListing() {
   const MIN = 10;
@@ -57,7 +57,7 @@ export default function ProductListing() {
     if (!data) return [];
 
     let products = data.filter((product) => {
-      const price = product.price * USD_TO_INR;
+      const price = product.price * 92;
 
       const priceMatch = price >= MIN && price <= maxPrice;
 
@@ -79,13 +79,13 @@ export default function ProductListing() {
 
     if (sortOrder === "low") {
       products = [...products].sort(
-        (a, b) => a.price * USD_TO_INR - b.price * USD_TO_INR,
+        (a, b) => a.price * 92 - b.price * 92,
       );
     }
 
     if (sortOrder === "high") {
       products = [...products].sort(
-        (a, b) => b.price * USD_TO_INR - a.price * USD_TO_INR,
+        (a, b) => b.price * 92 - a.price * 92,
       );
     }
 
@@ -130,7 +130,7 @@ export default function ProductListing() {
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div className="min-h-screen mt-15 bg-slate-50 font-sans text-slate-900">
+    <div className="min-h-screen mt-20 bg-slate-50 font-sans text-slate-900">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* MOBILE SEARCH + FILTER */}
 
@@ -184,7 +184,7 @@ export default function ProductListing() {
                   <span className="text-slate-400">—</span>
 
                   <span className="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-md font-medium">
-                    ₹ {maxPrice.toLocaleString("en-IN")}
+                    ₹ {formatINR(maxPrice)}
                   </span>
                 </div>
 
@@ -328,7 +328,7 @@ export default function ProductListing() {
               </div>
 
               {/* CONTROLS */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 ml-auto sm:ml-0">
                 {/* VIEW MODE */}
                 <div className="flex bg-white border border-slate-200 rounded-lg shadow-sm p-0.5">
                   <button

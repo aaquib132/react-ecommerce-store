@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MapPin, Phone, User, Truck, ShieldCheck } from "lucide-react";
-
-const USD_TO_INR = 92;
+import { formatINR } from "../utils/priceUtils";
 
 export default function ShippingPage() {
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ export default function ShippingPage() {
     (sum, item) =>
       sum +
       (Number(item.price) || 0) *
-        USD_TO_INR *
+        92 *
         (Number(item.quantity) || 1),
     0
   );
@@ -25,7 +24,7 @@ export default function ShippingPage() {
     (sum, item) =>
       sum +
       ((Number(item.price) || 0) *
-        USD_TO_INR *
+        92 *
         (Number(item.discountPercentage) || 0) *
         (Number(item.quantity) || 1)) /
         100,
@@ -33,7 +32,6 @@ export default function ShippingPage() {
   );
 
   const shipping = subtotal > 2000 ? 0 : 199;
-
   const total = subtotal - discount + shipping;
 
   /* FORM STATE */
@@ -49,12 +47,24 @@ export default function ShippingPage() {
 
   const [errors, setErrors] = useState({});
 
+  /* SAVED ADDRESSES */
+
+  const [savedAddresses, setSavedAddresses] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem("addresses")) || [];
+    setSavedAddresses(stored);
+  }, []);
+
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   /* VALIDATION */
 
   const validateForm = () => {
+    if (selectedAddressId) return true;
+
     const newErrors = {};
 
     if (!form.firstName.trim()) newErrors.firstName = "First name required";
@@ -70,7 +80,6 @@ export default function ShippingPage() {
       newErrors.phone = "Enter valid 10 digit phone number";
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
@@ -104,77 +113,140 @@ export default function ShippingPage() {
               Shipping Address
             </h2>
 
-            {/* NAME */}
+            {/* SAVED ADDRESSES */}
 
-            <div className="grid md:grid-cols-2 gap-5">
+            {savedAddresses.length > 0 && (
+              <div className="mb-8">
 
-              <Input
-                icon={<User size={18} />}
-                name="firstName"
-                placeholder="First Name"
-                onChange={handleChange}
-              />
-              {errors.firstName && <Error text={errors.firstName} />}
+                <h3 className="text-sm font-semibold text-slate-700 mb-4">
+                  Saved Addresses
+                </h3>
 
-              <Input
-                icon={<User size={18} />}
-                name="lastName"
-                placeholder="Last Name"
-                onChange={handleChange}
-              />
-              {errors.lastName && <Error text={errors.lastName} />}
+                <div className="grid md:grid-cols-2 gap-4">
 
-            </div>
+                  {savedAddresses.map((addr) => (
+                    <div
+                      key={addr.id}
+                      onClick={() => {
+                        setSelectedAddressId(addr.id);
 
-            {/* ADDRESS */}
+                        setForm((prev) => ({
+                          ...prev,
+                          address: addr.address,
+                          city: addr.city,
+                          zip: addr.zip,
+                        }));
+                      }}
+                      className={`p-4 rounded-xl border cursor-pointer transition
+                      ${
+                        selectedAddressId === addr.id
+                          ? "border-indigo-500 bg-indigo-50"
+                          : "border-slate-200 bg-slate-50 hover:shadow"
+                      }`}
+                    >
+                      <p className="font-medium text-slate-800">
+                        {addr.address}
+                      </p>
 
-            <div className="mt-5">
-              <Input
-                icon={<MapPin size={18} />}
-                name="address"
-                placeholder="Street Address"
-                onChange={handleChange}
-              />
-              {errors.address && <Error text={errors.address} />}
-            </div>
+                      <p className="text-xs text-slate-500 mt-1">
+                        {addr.city}, {addr.zip}, {addr.country}
+                      </p>
 
-            {/* CITY PIN */}
+                      {selectedAddressId === addr.id && (
+                        <p className="text-xs text-indigo-600 mt-2 font-medium">
+                          ✓ Selected Address
+                        </p>
+                      )}
+                    </div>
+                  ))}
 
-            <div className="grid md:grid-cols-2 gap-5 mt-5">
+                </div>
 
-              <div>
-                <Input
-                  name="city"
-                  placeholder="City"
-                  onChange={handleChange}
-                />
-                {errors.city && <Error text={errors.city} />}
+                {selectedAddressId && (
+                  <button
+                    onClick={() => setSelectedAddressId(null)}
+                    className="text-sm text-indigo-600 mt-4 underline"
+                  >
+                    Use a different address
+                  </button>
+                )}
+
               </div>
+            )}
 
-              <div>
-                <Input
-                  name="zip"
-                  placeholder="PIN Code"
-                  onChange={handleChange}
-                />
-                {errors.zip && <Error text={errors.zip} />}
-              </div>
+            {/* FORM (HIDDEN IF ADDRESS SELECTED) */}
 
-            </div>
+            {!selectedAddressId && (
+              <>
+                <div className="grid md:grid-cols-2 gap-5">
 
-            {/* PHONE */}
+                  <Input
+                    icon={<User size={18} />}
+                    name="firstName"
+                    value={form.firstName}
+                    placeholder="First Name"
+                    onChange={handleChange}
+                  />
+                  {errors.firstName && <Error text={errors.firstName} />}
 
-            <div className="mt-5">
-              <Input
-                icon={<Phone size={18} />}
-                name="phone"
-                placeholder="Phone Number"
-                onChange={handleChange}
-              />
-              {errors.phone && <Error text={errors.phone} />}
-            </div>
+                  <Input
+                    icon={<User size={18} />}
+                    name="lastName"
+                    value={form.lastName}
+                    placeholder="Last Name"
+                    onChange={handleChange}
+                  />
+                  {errors.lastName && <Error text={errors.lastName} />}
 
-            {/* DELIVERY MESSAGE */}
+                </div>
+
+                <div className="mt-5">
+                  <Input
+                    icon={<MapPin size={18} />}
+                    name="address"
+                    value={form.address}
+                    placeholder="Street Address"
+                    onChange={handleChange}
+                  />
+                  {errors.address && <Error text={errors.address} />}
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-5 mt-5">
+
+                  <div>
+                    <Input
+                      name="city"
+                      value={form.city}
+                      placeholder="City"
+                      onChange={handleChange}
+                    />
+                    {errors.city && <Error text={errors.city} />}
+                  </div>
+
+                  <div>
+                    <Input
+                      name="zip"
+                      value={form.zip}
+                      placeholder="PIN Code"
+                      onChange={handleChange}
+                    />
+                    {errors.zip && <Error text={errors.zip} />}
+                  </div>
+
+                </div>
+
+                <div className="mt-5">
+                  <Input
+                    icon={<Phone size={18} />}
+                    name="phone"
+                    value={form.phone}
+                    placeholder="Phone Number"
+                    onChange={handleChange}
+                  />
+                  {errors.phone && <Error text={errors.phone} />}
+                </div>
+              </>
+            )}
 
             <div className="mt-8 bg-indigo-50 text-indigo-700 p-4 rounded-lg flex items-center gap-3 text-sm">
               <Truck size={18} />
@@ -206,14 +278,13 @@ export default function ShippingPage() {
                     <p className="text-sm font-medium text-slate-700">
                       {p.title}
                     </p>
-
                     <p className="text-xs text-slate-400">
                       Qty: {p.quantity || 1}
                     </p>
                   </div>
 
                   <span className="text-sm font-semibold">
-                    ₹ {(p.price * USD_TO_INR * (p.quantity || 1)).toLocaleString("en-IN")}
+                    ₹ {formatINR(p.price * 92 * (p.quantity || 1))}
                   </span>
 
                 </div>
@@ -221,37 +292,32 @@ export default function ShippingPage() {
 
             </div>
 
-            {/* PRICE DETAILS */}
-
             <div className="border-t pt-4 space-y-3 text-sm">
 
               <PriceRow label="Subtotal" value={subtotal} />
 
               <div className="flex justify-between text-green-600">
                 <span>Discount</span>
-                <span>- ₹ {discount.toLocaleString("en-IN")}</span>
+                <span>- ₹ {formatINR(discount)}</span>
               </div>
 
               <div className="flex justify-between text-slate-600">
                 <span>Shipping</span>
-                <span>{shipping === 0 ? "Free" : `₹${shipping}`}</span>
+                <span>
+                  {shipping === 0 ? "Free" : `₹${formatINR(shipping)}`}
+                </span>
               </div>
 
               <div className="flex justify-between text-lg font-bold border-t pt-3">
                 <span>Total</span>
-                <span>₹ {total.toLocaleString("en-IN")}</span>
+                <span>₹ {formatINR(total)}</span>
               </div>
 
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-slate-500 mt-4">
-              <ShieldCheck size={16} />
-              Secure checkout
-            </div>
-
             <button
               onClick={handleContinue}
-              className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold cursor-pointer transition"
+              className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl cursor-pointer font-semibold"
             >
               Continue to Payment →
             </button>
@@ -270,7 +336,11 @@ function Input({ icon, ...props }) {
   return (
     <div className="flex items-center gap-3 border border-slate-200 rounded-lg px-3 py-3 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-200 transition">
       {icon && <span className="text-slate-400">{icon}</span>}
-      <input {...props} className="w-full outline-none text-sm bg-transparent" />
+      <input
+        {...props}
+        placeholder={props.placeholder}
+        className="w-full outline-none text-sm bg-transparent placeholder:text-slate-400"
+      />
     </div>
   );
 }
@@ -287,7 +357,7 @@ function PriceRow({ label, value }) {
   return (
     <div className="flex justify-between text-slate-600">
       <span>{label}</span>
-      <span>₹ {value.toLocaleString("en-IN")}</span>
+      <span>₹ {formatINR(value)}</span>
     </div>
   );
 }
@@ -302,7 +372,6 @@ function CheckoutSteps({ current }) {
       <div className="flex items-center gap-2 sm:gap-4 md:gap-6 min-w-max px-2">
 
         {steps.map((step, index) => {
-
           const stepNumber = index + 1;
           const active = stepNumber <= current;
 
@@ -310,8 +379,7 @@ function CheckoutSteps({ current }) {
             <div key={step} className="flex items-center gap-3">
 
               <div
-                className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold
-                ${
+                className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold ${
                   active
                     ? "bg-indigo-600 text-white"
                     : "bg-slate-200 text-slate-500"

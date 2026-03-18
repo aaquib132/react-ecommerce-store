@@ -10,6 +10,7 @@ import {
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useFetch from "../useFetch";
 import { useShop } from "../store/ShopContext";
+import { formatPrice } from "../utils/priceUtils";
 
 export default function Navbar() {
 
@@ -182,7 +183,7 @@ export default function Navbar() {
                             </p>
 
                             <p className="text-xs text-neutral-500">
-                              ₹ {(product.price * 92).toLocaleString("en-IN")}
+                              ₹ {formatPrice(product.price)}
                             </p>
 
                           </div>
